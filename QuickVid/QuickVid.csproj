@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+      <PackageReference Include="FFME.Windows" Version="4.4.350" />
+      <PackageReference Include="HandyControls" Version="3.4.4" />
+      <PackageReference Include="Jab" Version="0.8.6" />
+      <PackageReference Include="Serilog" Version="2.12.1-dev-01635" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00901" />
+      <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
+      <PackageReference Include="WPF-UI" Version="3.0.0-preview.1" />
+      <PackageReference Include="Xabe.FFmpeg" Version="5.2.3" />
+      <PackageReference Include="Xabe.FFmpeg.Downloader" Version="5.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Contracts\" />
+    </ItemGroup>
+
+</Project>

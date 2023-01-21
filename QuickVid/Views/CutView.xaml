@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="QuickVid.Views.CutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:QuickVid.Views"
+             xmlns:controls="clr-namespace:QuickVid.Controls"
+             xmlns:ffme="clr-namespace:Unosquare.FFME;assembly=ffme.win"
+             xmlns:viewModels="clr-namespace:QuickVid.ViewModels"
+             xmlns:behaviours="clr-namespace:QuickVid.Behaviours"
+             xmlns:converters="clr-namespace:QuickVid.Converters" xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance viewModels:CutViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:TimeSpanToDoubleConverter x:Key="TimeSpanToDoubleConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <controls:SimpleGrid Rows="*,Auto">
+        <ffme:MediaElement Grid.Row="0" x:Name="MediaElement" Visibility="Visible" LoadedBehavior="Play"
+                           UnloadedBehavior="Manual" Volume="0.2" Background="Black"
+                           behaviours:DropFilesBehaviour.IsEnabled="True" />
+        <controls:SimpleGrid Grid.Row="1" Rows="Auto,Auto,*">
+            <controls:SimpleGrid Grid.Row="0" Columns="Auto,*,Auto" Margin="5 0">
+                <Label Grid.Column="0" Content="{Binding CurrentMediaPosition}"
+                       ContentStringFormat="{}{0:hh}:{0:mm}:{0:ss}" />
+                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Orientation="Vertical" Margin="10 0">
+                    <Slider HorizontalAlignment="Stretch"
+                            Minimum="0"
+                            Value="{Binding CurrentMediaPosition, Converter={StaticResource TimeSpanToDoubleConverter}}"
+                            Maximum="{Binding TotalMediaDuration, Converter={StaticResource TimeSpanToDoubleConverter}}" />
+                    <hc:RangeSlider HorizontalAlignment="Stretch"
+                                    Minimum="0"
+                                    Maximum="{Binding TotalMediaDuration, Converter={StaticResource TimeSpanToDoubleConverter}}"
+                                    ValueStart="{Binding RangeStart}" ValueEnd="{Binding RangeEnd}" />
+                </StackPanel>
+                <Label Grid.Column="2" Content="{Binding TotalMediaDuration}"
+                       ContentStringFormat="{}{0:hh}:{0:mm}:{0:ss}" />
+            </controls:SimpleGrid>
+
+            <Button Grid.Row="2" Margin="0 10 0 0"
+                    Content="Add to export queue" HorizontalAlignment="Stretch"
+                    Command="{Binding AddToExportQueueCommand}">
+            </Button>
+        </controls:SimpleGrid>
+    </controls:SimpleGrid>
+</UserControl>

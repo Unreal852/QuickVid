@@ -1,0 +1,42 @@
+﻿<ui:FluentWindow x:Class="QuickVid.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:ctrls="clr-namespace:QuickVid.Controls"
+                 xmlns:viewModels="clr-namespace:QuickVid.ViewModels"
+                 xmlns:views="clr-namespace:QuickVid.Views"
+                 mc:Ignorable="d"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowCornerPreference="Default"
+                 WindowBackdropType="Mica"
+                 WindowStartupLocation="CenterScreen"
+                 Title="MainWindow"
+                 Height="450" Width="800" d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
+    <ctrls:SimpleGrid Rows="Auto,*">
+        <ui:TitleBar Grid.Row="0" Title="Quick Video Editor" />
+        <ui:NavigationView x:Name="RootNavigation" Grid.Row="1"
+                           PaneDisplayMode="LeftFluent" IsEnabled="{Binding AllowNavigation}">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="Cut" TargetPageType="{x:Type views:CutView}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="ScreenCut20" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="Combine" TargetPageType="{x:Type views:MergeView}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Merge24" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="Export" TargetPageType="{x:Type views:ExportView}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="ArrowExportUp24" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.FooterMenuItems>
+        </ui:NavigationView>
+    </ctrls:SimpleGrid>
+</ui:FluentWindow>
