@@ -13,9 +13,9 @@
                  WindowBackdropType="Mica"
                  WindowStartupLocation="CenterScreen"
                  Title="MainWindow"
-                 Height="450" Width="800" d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
+                 Height="800" Width="1200" d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
     <ctrls:SimpleGrid Rows="Auto,*">
-        <ui:TitleBar Grid.Row="0" Title="Quick Video Editor" />
+        <ui:TitleBar Grid.Row="0" Title="Quick Video Editor" Icon="../app_icon.ico" />
         <ui:NavigationView x:Name="RootNavigation" Grid.Row="1"
                            PaneDisplayMode="LeftFluent" IsEnabled="{Binding AllowNavigation}">
             <ui:NavigationView.MenuItems>

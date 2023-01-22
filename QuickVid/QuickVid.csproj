@@ -5,6 +5,7 @@
         <TargetFramework>net7.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <ApplicationIcon>app_icon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,6 +23,11 @@
 
     <ItemGroup>
       <Folder Include="Contracts\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="app_icon.ico" />
+      <Resource Include="app_icon.ico" />
     </ItemGroup>
 
 </Project>

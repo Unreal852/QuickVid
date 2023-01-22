@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using QuickVid.Behaviours;
@@ -29,6 +28,9 @@ internal sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
 
     [ObservableProperty]
     private double _rangeEnd;
+
+    [ObservableProperty]
+    private double _volume = 0.2;
 
     public CutViewModel()
     {
@@ -62,6 +64,11 @@ internal sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
             MediaElement.Position = time;
     }
 
+    partial void OnVolumeChanged(double value)
+    {
+        MediaElement.Volume = value;
+    }
+
     private async Task OpenFile(string path)
     {
         if (!File.Exists(path))
@@ -72,9 +79,19 @@ internal sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
         var result = await MediaElement.Open(new Uri(_currentFile.FullName));
         if (!result)
             return;
+        MediaElement.Volume = Volume;
         TotalMediaDuration = MediaElement.NaturalDuration ?? TimeSpan.Zero;
         RangeEnd = TotalMediaDuration.TotalSeconds;
         await MediaElement.Play();
+    }
+
+    [RelayCommand]
+    private async Task PlayPause()
+    {
+        if (MediaElement.IsPlaying)
+            await MediaElement.Pause();
+        else
+            await MediaElement.Play();
     }
 
     [RelayCommand]
@@ -83,27 +100,22 @@ internal sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
         if (_currentFile == null)
             return;
 
-        var saveFileDialog = new SaveFileDialog
-        {
-                Filter = "MP4|*.mp4",
-                FileName = $"{Path.GetFileNameWithoutExtension(_currentFile.Name)}_edited.mp4"
-        };
-
-        var result = saveFileDialog.ShowDialog();
-        if (result != DialogResult.OK)
-            return;
         await MediaElement.Pause();
+
+        var videosFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),
+                "QuickVid Exports");
+        Directory.CreateDirectory(videosFolderPath);
 
         var operation = new CutOperation
         {
                 File = _currentFile,
-                OutputFile = new FileInfo(saveFileDialog.FileName),
+                OutputFile = new FileInfo(Path.Combine(videosFolderPath,
+                        $"{Path.GetFileNameWithoutExtension(_currentFile.Name)}_edited.mp4")),
                 TimeSeek = TimeSpan.FromSeconds(RangeStart),
                 OutputTime = TimeSpan.FromSeconds(RangeEnd - RangeStart)
         };
 
         _exportService.Enqueue(operation);
-        //TODO: Add to export queue
 
         if (_files.TryDequeue(out var file))
             await OpenFile(file.FullName);
