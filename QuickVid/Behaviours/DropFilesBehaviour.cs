@@ -6,12 +6,8 @@ namespace QuickVid.Behaviours;
 
 internal sealed class DropFilesBehaviour
 {
-    public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached(
-            "IsEnabled", typeof(bool), typeof(DropFilesBehaviour),
-            new FrameworkPropertyMetadata(default(bool), OnPropChanged)
-            {
-                    BindsTwoWayByDefault = false,
-            });
+    public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(DropFilesBehaviour),
+            new FrameworkPropertyMetadata(default(bool), OnPropChanged) { BindsTwoWayByDefault = false });
 
     private static void OnPropChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -45,8 +41,7 @@ internal sealed class DropFilesBehaviour
         if (dataContext is not IFileDropHandler filesDropped)
         {
             if (dataContext != null)
-                Trace.TraceError(
-                        $"Binding error, '{dataContext.GetType().Name}' doesn't implement '{nameof(IFileDropHandler)}'.");
+                Trace.TraceError($"Binding error, '{dataContext.GetType().Name}' doesn't implement '{nameof(IFileDropHandler)}'.");
             return;
         }
 

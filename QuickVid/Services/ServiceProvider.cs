@@ -11,7 +11,7 @@ namespace QuickVid.Services;
 [Singleton<CutView>]
 [Singleton<MergeView>]
 [Singleton<ExportView>]
-internal partial class ServiceProvider
+public sealed partial class ServiceProvider
 {
     public static readonly ServiceProvider Instance;
     public static          ILogger         Logger => Log.Logger;

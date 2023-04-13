@@ -13,7 +13,7 @@ using Unosquare.FFME.Common;
 
 namespace QuickVid.ViewModels;
 
-internal sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
+public sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
 {
     private readonly ExportViewModel _exportService;
     private readonly Queue<FileInfo> _files = new();
@@ -112,7 +112,7 @@ internal sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
                 OutputFile = new FileInfo(Path.Combine(videosFolderPath,
                         $"{Path.GetFileNameWithoutExtension(_currentFile.Name)}_edited.mp4")),
                 TimeSeek = TimeSpan.FromSeconds(RangeStart),
-                OutputTime = TimeSpan.FromSeconds(RangeEnd - RangeStart)
+                OutputTime = TimeSpan.FromSeconds(RangeEnd - RangeStart),
         };
 
         _exportService.Enqueue(operation);

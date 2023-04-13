@@ -29,8 +29,8 @@ public sealed partial class MediaExport : ObservableObject
         Operation = operation;
     }
 
-    public ExportOperation                 Operation { get; }
-    public IReadOnlyList<ConversionPreset> Presets   => ConversionPresets;
+    public ExportOperation Operation { get; }
+    public IReadOnlyList<ConversionPreset> Presets => ConversionPresets;
 
     public ConversionPreset ConversionPreset
     {

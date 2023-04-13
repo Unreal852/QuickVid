@@ -42,6 +42,12 @@
                                 <ComboBox Grid.Column="1" ItemsSource="{Binding Presets}"
                                           SelectedItem="{Binding ConversionPreset}" />
                             </controls:SimpleGrid>
+                            <!-- Constant Rate Factor -->
+                            <controls:SimpleGrid Columns="200,Auto,*" Margin="0 0 0 3">
+                                <Label Grid.Column="0" VerticalAlignment="Center" Content="Constant Rate Factor:" />
+                                <CheckBox x:Name="EnableCrf" Grid.Column="1" IsChecked="{Binding Operation.Settings.UseConstantRateFactor}"/>
+                                <ui:NumberBox Grid.Column="2" IsEnabled="{Binding Path=IsChecked, ElementName=EnableCrf}" Minimum="0" Value="{Binding Operation.Settings.ConstantRateFactor}" Maximum="51"/>
+                            </controls:SimpleGrid>
                             <!-- Remove Audio -->
                             <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
                                 <Label Grid.Column="0" Content="Remove Audio:" />
