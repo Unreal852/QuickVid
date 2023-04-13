@@ -9,7 +9,7 @@ public sealed class ExportSettings
     public bool UseMultithreading { get; set; } = true;
     public bool RemoveAudio { get; set; } = false;
     public bool UseConstantRateFactor { get; set; } = false;
-    public float ConstantRateFactor { get; set; } = 20;
+    public float ConstantRateFactor { get; set; } = 28;
     public double? Framerate { get; set; } = null;
     public long? VideoBitrate { get; set; } = null;
     public long? AudioBitrate { get; set; } = null;
