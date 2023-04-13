@@ -37,7 +37,8 @@ public abstract class ExportOperation
         conversion.SetPreset(Settings.ConversionPreset);
         if (Settings.UseConstantRateFactor && Settings.ConstantRateFactor >= 0 && Settings.ConstantRateFactor <= 51)
         {
-            conversion.AddParameter("-vcodec libx265"); // Use libx265, better compression without quality loss but conversion is slower
+            // Discord doesn't actually support h265 :'(
+            //conversion.AddParameter("-vcodec libx265"); // Use libx265, better compression without quality loss but conversion is slower
             conversion.AddParameter($"-crf {Settings.ConstantRateFactor}");
         }
 
