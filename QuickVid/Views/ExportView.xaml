@@ -16,51 +16,53 @@
                    Content="Export All" Icon="ArrowExportUp24"
                    Command="{Binding StartExportCommand}"
                    HorizontalAlignment="Stretch" />
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding ExportQueue}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type models:MediaExport}">
-                    <Border CornerRadius="10" Background="#272727" Margin="5">
-                        <StackPanel IsEnabled="{Binding !IsExporting}" Orientation="Vertical" Margin="5">
-                            <!-- Input -->
-                            <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
-                                <Label Grid.Column="0" Content="Input File:" />
-                                <ui:Button Grid.Column="1" IsEnabled="False" HorizontalAlignment="Stretch"
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding ExportQueue}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:MediaExport}">
+                        <Border CornerRadius="10" Background="#272727" Margin="5">
+                            <StackPanel IsEnabled="{Binding !IsExporting}" Orientation="Vertical" Margin="5">
+                                <!-- Input -->
+                                <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
+                                    <Label Grid.Column="0" Content="Input File:" />
+                                    <ui:Button Grid.Column="1" IsEnabled="False" HorizontalAlignment="Stretch"
                                            Content="{Binding Operation.File.FullName}" Icon="Link24" />
-                            </controls:SimpleGrid>
-                            <!-- Output -->
-                            <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
-                                <Label Grid.Column="0" Content="Output File:" />
-                                <ui:Button Grid.Column="1" IsEnabled="False" HorizontalAlignment="Stretch"
+                                </controls:SimpleGrid>
+                                <!-- Output -->
+                                <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
+                                    <Label Grid.Column="0" Content="Output File:" />
+                                    <ui:Button Grid.Column="1" IsEnabled="False" HorizontalAlignment="Stretch"
                                            Content="{Binding Operation.OutputFile.FullName}"
                                            Icon="Link24" />
-                            </controls:SimpleGrid>
-                            <!-- Conversion Preset -->
-                            <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
-                                <Label Grid.Column="0"
+                                </controls:SimpleGrid>
+                                <!-- Conversion Preset -->
+                                <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
+                                    <Label Grid.Column="0"
                                        VerticalContentAlignment="Center"
                                        Content="Conversion Preset:" />
-                                <ComboBox Grid.Column="1" ItemsSource="{Binding Presets}"
+                                    <ComboBox Grid.Column="1" ItemsSource="{Binding Presets}"
                                           SelectedItem="{Binding ConversionPreset}" />
-                            </controls:SimpleGrid>
-                            <!-- Constant Rate Factor -->
-                            <controls:SimpleGrid Columns="200,Auto,*" Margin="0 0 0 3">
-                                <Label Grid.Column="0" VerticalAlignment="Center" Content="Constant Rate Factor:" />
-                                <CheckBox x:Name="EnableCrf" Grid.Column="1" IsChecked="{Binding Operation.Settings.UseConstantRateFactor}"/>
-                                <ui:NumberBox Grid.Column="2" IsEnabled="{Binding Path=IsChecked, ElementName=EnableCrf}" Minimum="0" Value="{Binding Operation.Settings.ConstantRateFactor}" Maximum="51"/>
-                            </controls:SimpleGrid>
-                            <!-- Remove Audio -->
-                            <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
-                                <Label Grid.Column="0" Content="Remove Audio:" />
-                                <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding RemoveAudio}" />
-                            </controls:SimpleGrid>
-                            <ProgressBar
+                                </controls:SimpleGrid>
+                                <!-- Constant Rate Factor -->
+                                <controls:SimpleGrid Columns="200,Auto,*" Margin="0 0 0 3">
+                                    <Label Grid.Column="0" VerticalAlignment="Center" Content="Constant Rate Factor:" />
+                                    <CheckBox x:Name="EnableCrf" Grid.Column="1" IsChecked="{Binding Operation.Settings.UseConstantRateFactor}"/>
+                                    <ui:NumberBox Grid.Column="2" IsEnabled="{Binding Path=IsChecked, ElementName=EnableCrf}" Minimum="0" Value="{Binding Operation.Settings.ConstantRateFactor}" Maximum="51"/>
+                                </controls:SimpleGrid>
+                                <!-- Remove Audio -->
+                                <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
+                                    <Label Grid.Column="0" Content="Remove Audio:" />
+                                    <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding RemoveAudio}" />
+                                </controls:SimpleGrid>
+                                <ProgressBar
                                 Visibility="{Binding IsExporting, Converter={StaticResource BoolToVisibilityConverter}}"
                                 Minimum="0" Maximum="100"
                                 Value="{Binding ProgressPercentage}" />
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </controls:SimpleGrid>
 </UserControl>
