@@ -8,7 +8,7 @@ public sealed class ExportSettings
     public ConversionPreset ConversionPreset { get; set; } = ConversionPreset.SuperFast;
     public bool UseMultithreading { get; set; } = true;
     public bool RemoveAudio { get; set; } = false;
-    public bool UseConstantRateFactor { get; set; } = false;
+    public bool UseConstantRateFactor { get; set; } = true;
     public float ConstantRateFactor { get; set; } = 23;
     public double? Framerate { get; set; } = null;
     public long? VideoBitrate { get; set; } = null;
