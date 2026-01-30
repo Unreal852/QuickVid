@@ -17,8 +17,7 @@ public sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
 {
     private readonly ExportViewModel _exportService;
     private readonly Queue<FileInfo> _files = new();
-    private          FileInfo?       _currentFile;
-    private          MediaElement?   _mediaElement;
+    private FileInfo? _currentFile;
 
     [ObservableProperty]
     private TimeSpan _totalMediaDuration;
@@ -41,13 +40,13 @@ public sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
     {
         get
         {
-            if (_mediaElement == null)
+            if (field == null)
             {
-                _mediaElement = ServiceProvider.Instance.GetService<CutView>().MediaElement;
-                _mediaElement.PositionChanged += OnPositionChanged;
+                field = ServiceProvider.Instance.GetService<CutView>().MediaElement;
+                field.PositionChanged += OnPositionChanged;
             }
 
-            return _mediaElement;
+            return field;
         }
     }
 
@@ -73,6 +72,7 @@ public sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
     {
         if (!File.Exists(path))
             return;
+        await MediaElement.Close();
         _currentFile = new FileInfo(path);
         CurrentMediaPosition = TotalMediaDuration = TimeSpan.Zero;
         RangeStart = 0;
@@ -103,16 +103,16 @@ public sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
         await MediaElement.Pause();
 
         var videosFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),
-                "QuickVid Exports");
+            "QuickVid Exports");
         Directory.CreateDirectory(videosFolderPath);
 
         var operation = new CutOperation
         {
-                File = _currentFile,
-                OutputFile = new FileInfo(Path.Combine(videosFolderPath,
-                        $"{Path.GetFileNameWithoutExtension(_currentFile.Name)}_edited.mp4")),
-                TimeSeek = TimeSpan.FromSeconds(RangeStart),
-                OutputTime = TimeSpan.FromSeconds(RangeEnd - RangeStart),
+            File = _currentFile,
+            OutputFile = new FileInfo(Path.Combine(videosFolderPath,
+                $"{Path.GetFileNameWithoutExtension(_currentFile.Name)}-{DateTime.Now.ToFileTime()}.mp4")),
+            TimeSeek = TimeSpan.FromSeconds(RangeStart),
+            OutputTime = TimeSpan.FromSeconds(RangeEnd - RangeStart),
         };
 
         _exportService.Enqueue(operation);
@@ -131,7 +131,7 @@ public sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
         OnPropertyChanged(nameof(CurrentMediaPosition));
     }
 
-    public async void OnFilesDropped(string[] files)
+    public async Task OnFilesDropped(string[] files)
     {
         await OpenFile(files[0]);
         if (files.Length <= 1)

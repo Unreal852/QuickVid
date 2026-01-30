@@ -1,6 +1,8 @@
-﻿namespace QuickVid.Behaviours;
+﻿using System.Threading.Tasks;
+
+namespace QuickVid.Behaviours;
 
 internal interface IFileDropHandler
 {
-    void OnFilesDropped(string[] files);
+    Task OnFilesDropped(string[] files);
 }
