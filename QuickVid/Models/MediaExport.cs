@@ -12,6 +12,7 @@ namespace QuickVid.Models;
 public sealed partial class MediaExport : ObservableObject
 {
     public static readonly IReadOnlyList<ConversionPreset> ConversionPresets;
+    public static readonly IReadOnlyList<Format> ConversionFormats;
 
     [ObservableProperty]
     private bool _isExporting;
@@ -22,6 +23,7 @@ public sealed partial class MediaExport : ObservableObject
     static MediaExport()
     {
         ConversionPresets = Enum.GetValues<ConversionPreset>().ToImmutableList();
+        ConversionFormats = [Format.mp4, Format.mp3];
     }
 
     public MediaExport(ExportOperation operation)
@@ -31,11 +33,18 @@ public sealed partial class MediaExport : ObservableObject
 
     public ExportOperation Operation { get; }
     public IReadOnlyList<ConversionPreset> Presets => ConversionPresets;
+    public IReadOnlyList<Format> Formats => ConversionFormats;
 
     public ConversionPreset ConversionPreset
     {
         get => Operation.Settings.ConversionPreset;
         set => Operation.Settings.ConversionPreset = value;
+    }
+
+    public Format ConversionFormat
+    {
+        get => Operation.Settings.OutputFormat;
+        set => Operation.Settings.OutputFormat = value;
     }
 
     public bool RemoveAudio

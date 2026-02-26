@@ -110,11 +110,11 @@ public sealed partial class CutViewModel : BaseViewModel, IFileDropHandler
         {
             File = _currentFile,
             OutputFile = new FileInfo(Path.Combine(videosFolderPath,
-                $"{Path.GetFileNameWithoutExtension(_currentFile.Name)}-{DateTime.Now.ToFileTime()}.mp4")),
+                $"{Path.GetFileNameWithoutExtension(_currentFile.Name)}-{DateTime.Now.ToFileTime()}")),
             TimeSeek = TimeSpan.FromSeconds(RangeStart),
             OutputTime = TimeSpan.FromSeconds(RangeEnd - RangeStart),
         };
-
+        
         _exportService.Enqueue(operation);
 
         if (_files.TryDequeue(out var file))

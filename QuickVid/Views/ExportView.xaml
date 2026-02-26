@@ -35,6 +35,14 @@
                                            Content="{Binding Operation.OutputFile.FullName}"
                                            Icon="Link24" />
                                 </controls:SimpleGrid>
+                                <!-- Conversion Format -->
+                                <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
+                                    <Label Grid.Column="0"
+                                           VerticalContentAlignment="Center"
+                                           Content="Conversion Format:" />
+                                    <ComboBox Grid.Column="1" ItemsSource="{Binding Formats}"
+                                              SelectedItem="{Binding ConversionFormat}" />
+                                </controls:SimpleGrid>
                                 <!-- Conversion Preset -->
                                 <controls:SimpleGrid Columns="200,*" Margin="0 0 0 3">
                                     <Label Grid.Column="0"

@@ -18,14 +18,18 @@ public abstract class ExportOperation
     {
         var mediaInfo = await Xabe.FFmpeg.FFmpeg.GetMediaInfo(File.FullName);
         var conversion = Xabe.FFmpeg.FFmpeg.Conversions.New();
-        var videoStream = mediaInfo.VideoStreams.First();
-        var audioStream = Settings.RemoveAudio ? default : mediaInfo.AudioStreams.First();
+        var videoStream = Settings.OutputFormat == Format.mp3 ? null : mediaInfo.VideoStreams.First();
+        var audioStream = Settings.RemoveAudio ? null : mediaInfo.AudioStreams.First();
 
-        conversion.SetOutput(OutputFile.FullName);
+        conversion.SetOutput($"{OutputFile.FullName}.{Settings.OutputFormat}");
         conversion.SetOutputFormat(Settings.OutputFormat);
-        conversion.SetFrameRate(Settings.Framerate ?? videoStream.Framerate);
-        conversion.SetVideoBitrate(Settings.VideoBitrate ?? videoStream.Bitrate);
-        conversion.AddStream(videoStream);
+
+        if (videoStream != null)
+        {
+            conversion.SetFrameRate(Settings.Framerate ?? videoStream.Framerate);
+            conversion.SetVideoBitrate(Settings.VideoBitrate ?? videoStream.Bitrate);
+            conversion.AddStream(videoStream);
+        }
 
         if (audioStream != null)
         {
@@ -35,7 +39,7 @@ public abstract class ExportOperation
 
         conversion.UseMultiThread(Settings.UseMultithreading);
         conversion.SetPreset(Settings.ConversionPreset);
-        if (Settings.UseConstantRateFactor && Settings.ConstantRateFactor >= 0 && Settings.ConstantRateFactor <= 51)
+        if (Settings is { UseConstantRateFactor: true, ConstantRateFactor: >= 0 and <= 51 })
         {
             // Discord doesn't actually support h265 :'(
             //conversion.AddParameter("-vcodec libx265"); // Use libx265, better compression without quality loss but conversion is slower
